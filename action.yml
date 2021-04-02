@@ -2,6 +2,9 @@ name: "Nuclei Action"
 description: "Nuclei is a fast and customisable vulnerability scanner based on simple YAML based DSL"
 
 inputs:
+  url:
+    description: URL to scan
+    required: true
   output:
     description: "File to save output result"
     required: false
@@ -24,7 +27,7 @@ runs:
         nuclei -ut -ud ./nuclei-templates
 
         nuclei \
-          -l ${{ inputs.urls }} \
+          -target ${{ inputs.url }} \
           -t ./nuclei-templates \
           -o ${{ inputs.output }} \
           -H "User-Agent: ${{ inputs.user-agent }}" \
