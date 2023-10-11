@@ -18,20 +18,17 @@ runs:
   using: "composite"
   steps:
     - run: |
-        [ ! -x /home/runner/go/bin/nuclei ] && GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
-        echo "/home/runner/go/bin/" >> $GITHUB_PATH
+        if ! [ -x "$(command -v nuclei)" ]; then
+          wget -q https://github.com/projectdiscovery/nuclei/releases/download/v2.9.15/nuclei_2.9.15_linux_amd64.zip
+          unzip nuclei_2.9.15_linux_amd64.zip
+          mkdir -p $HOME/.local/bin
+          mv nuclei $HOME/.local/bin/
+        fi
       shell: bash
 
     - run: |
-        mkdir nuclei-templates
-        nuclei -ut -ud ./nuclei-templates
-
         nuclei \
           -target ${{ inputs.url }} \
-          -t ./nuclei-templates \
-          -o ${{ inputs.output }} \
-          -H "User-Agent: ${{ inputs.user-agent }}" \
-          -json \
-          -include-rr \
-          \
+          -json-export ${{ inputs.output }} \
+          -header "User-Agent: ${{ inputs.user-agent }}"
       shell: bash
