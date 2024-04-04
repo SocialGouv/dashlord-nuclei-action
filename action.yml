@@ -27,7 +27,7 @@ runs:
       shell: bash
 
     - run: |
-        nuclei \
+        $HOME/.local/bin/nuclei \
           -target ${{ inputs.url }} \
           -json-export ${{ inputs.output }} \
           -header "User-Agent: ${{ inputs.user-agent }}"
