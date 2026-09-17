@@ -20,7 +20,7 @@ runs:
     - run: |
         if ! [ -x "$(command -v nuclei)" ]; then
           wget -q https://github.com/projectdiscovery/nuclei/releases/download/v3.11.1/nuclei_3.11.1_linux_amd64.zip
-          unzip nuclei_3.11.1_linux_amd64.zip
+          unzip -fo nuclei_3.11.1_linux_amd64.zip
           mkdir -p $HOME/.local/bin
           mv nuclei $HOME/.local/bin/
         fi
